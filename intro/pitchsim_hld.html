@@ -1,0 +1,154 @@
+<style>
+*{box-sizing:border-box}
+.wrap{font-family:var(--font-sans);padding:4px 0}
+.section{font-size:11px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.06em;margin:16px 0 8px}
+.layer{border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:14px 16px;margin-bottom:10px}
+.layer-title{font-size:12px;font-weight:500;color:var(--color-text-secondary);margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em}
+.comp-row{display:flex;gap:8px;flex-wrap:wrap}
+.comp{border-radius:8px;padding:9px 13px;flex:1;min-width:120px}
+.comp-title{font-size:12px;font-weight:500;margin-bottom:2px}
+.comp-sub{font-size:11px;opacity:.8;line-height:1.5}
+.ca{background:#E1F5EE;border:0.5px solid #5DCAA5}.ca .comp-title{color:#085041}.ca .comp-sub{color:#0F6E56}
+.cb{background:#EEEDFE;border:0.5px solid #AFA9EC}.cb .comp-title{color:#3C3489}.cb .comp-sub{color:#534AB7}
+.cc{background:#FAEEDA;border:0.5px solid #FAC775}.cc .comp-title{color:#633806}.cc .comp-sub{color:#854F0B}
+.cd{background:#E6F1FB;border:0.5px solid #85B7EB}.cd .comp-title{color:#0C447C}.cd .comp-sub{color:#185FA5}
+.ce{background:#FAECE7;border:0.5px solid #F0997B}.ce .comp-title{color:#712B13}.ce .comp-sub{color:#993C1D}
+.cf{background:#EAF3DE;border:0.5px solid #97C459}.cf .comp-title{color:#27500A}.cf .comp-sub{color:#3B6D11}
+.arrow-down{text-align:center;font-size:16px;color:var(--color-text-tertiary);margin:4px 0;line-height:1}
+.flow-row{display:flex;align-items:center;gap:6px;margin-bottom:6px;flex-wrap:wrap}
+.flow-box{font-size:11px;padding:4px 10px;border-radius:6px;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);color:var(--color-text-secondary);white-space:nowrap}
+.flow-arr{color:var(--color-text-tertiary);font-size:12px}
+.tag{display:inline-block;font-size:10px;padding:1px 7px;border-radius:20px;margin:2px 2px 0 0;font-weight:500}
+.t-tech{background:var(--color-background-secondary);color:var(--color-text-tertiary);border:0.5px solid var(--color-border-tertiary)}
+</style>
+
+<div class="wrap">
+
+<div class="section">Layer 1 — Client / frontend</div>
+<div class="layer">
+  <div class="layer-title">What the user sees</div>
+  <div class="comp-row">
+    <div class="comp ca">
+      <div class="comp-title">Idea input form</div>
+      <div class="comp-sub">Product brief, price, target market, 3 pitch variants</div>
+    </div>
+    <div class="comp ca">
+      <div class="comp-title">Live simulation view</div>
+      <div class="comp-sub">D3 network graph, tick progress, real-time persona feed</div>
+    </div>
+    <div class="comp ca">
+      <div class="comp-title">Validation report</div>
+      <div class="comp-sub">Funnel, objections, early adopters, fix recommendations</div>
+    </div>
+  </div>
+  <div style="margin-top:8px"><span class="tag t-tech">React</span><span class="tag t-tech">D3.js</span><span class="tag t-tech">Recharts</span><span class="tag t-tech">WebSocket client</span><span class="tag t-tech">Vercel</span></div>
+</div>
+
+<div class="arrow-down">↓ REST + WebSocket</div>
+
+<div class="section">Layer 2 — API gateway</div>
+<div class="layer">
+  <div class="layer-title">Entry point — handles auth, routing, streaming</div>
+  <div class="comp-row">
+    <div class="comp cb">
+      <div class="comp-title">POST /simulate</div>
+      <div class="comp-sub">Accepts brief, spawns simulation job, returns sim_id</div>
+    </div>
+    <div class="comp cb">
+      <div class="comp-title">WS /stream/{sim_id}</div>
+      <div class="comp-sub">Pushes tick updates to frontend in real time</div>
+    </div>
+    <div class="comp cb">
+      <div class="comp-title">GET /report/{sim_id}</div>
+      <div class="comp-sub">Returns final compiled validation report JSON</div>
+    </div>
+    <div class="comp cb">
+      <div class="comp-title">POST /variants</div>
+      <div class="comp-sub">A/B pitch test — runs 3 variants on same population</div>
+    </div>
+  </div>
+  <div style="margin-top:8px"><span class="tag t-tech">FastAPI</span><span class="tag t-tech">WebSockets</span><span class="tag t-tech">JWT auth</span><span class="tag t-tech">Pydantic</span><span class="tag t-tech">Railway</span></div>
+</div>
+
+<div class="arrow-down">↓ async task queue</div>
+
+<div class="section">Layer 3 — Simulation engine (the brain)</div>
+<div class="layer">
+  <div class="layer-title">Core logic — runs entirely in Python</div>
+  <div class="comp-row">
+    <div class="comp cc">
+      <div class="comp-title">Persona generator</div>
+      <div class="comp-sub">Spawns N buyer personas from target market brief using LLM</div>
+    </div>
+    <div class="comp cc">
+      <div class="comp-title">Tick orchestrator</div>
+      <div class="comp-sub">Picks agent pairs from trust graph, runs conversations</div>
+    </div>
+    <div class="comp cc">
+      <div class="comp-title">Mind engine</div>
+      <div class="comp-sub">LangChain chain — 5-step reasoning per agent per interaction</div>
+    </div>
+    <div class="comp cc">
+      <div class="comp-title">Funnel tracker</div>
+      <div class="comp-sub">Tracks stage transitions: Unaware→Aware→Interested→Objecting→Convinced→Advocate</div>
+    </div>
+    <div class="comp cc">
+      <div class="comp-title">Mutation tracker</div>
+      <div class="comp-sub">Records how product description changes as it passes agent to agent</div>
+    </div>
+    <div class="comp cc">
+      <div class="comp-title">Report compiler</div>
+      <div class="comp-sub">Aggregates all tick data into structured validation report</div>
+    </div>
+  </div>
+  <div style="margin-top:8px"><span class="tag t-tech">Python</span><span class="tag t-tech">LangChain</span><span class="tag t-tech">NetworkX</span><span class="tag t-tech">Celery</span><span class="tag t-tech">asyncio</span></div>
+</div>
+
+<div class="arrow-down">↓ LLM calls + reads/writes</div>
+
+<div class="section">Layer 4 — AI + data layer</div>
+<div class="layer">
+  <div class="layer-title">Intelligence and persistence</div>
+  <div class="comp-row">
+    <div class="comp cd">
+      <div class="comp-title">Claude Haiku / GPT-3.5</div>
+      <div class="comp-sub">Powers agent reasoning, objection generation, recommendations</div>
+    </div>
+    <div class="comp cd">
+      <div class="comp-title">Prompt cache</div>
+      <div class="comp-sub">Redis — caches identical persona+idea combos, cuts cost 60%</div>
+    </div>
+    <div class="comp ce">
+      <div class="comp-title">Simulation store</div>
+      <div class="comp-sub">SQLite — tick snapshots, agent states, mutation chains</div>
+    </div>
+    <div class="comp cf">
+      <div class="comp-title">Report store</div>
+      <div class="comp-sub">PostgreSQL — final reports, user history, A/B results</div>
+    </div>
+  </div>
+  <div style="margin-top:8px"><span class="tag t-tech">Anthropic API</span><span class="tag t-tech">Redis</span><span class="tag t-tech">SQLite</span><span class="tag t-tech">PostgreSQL</span></div>
+</div>
+
+<div class="section" style="margin-top:16px">Core data flow</div>
+<div class="layer" style="padding:12px 16px">
+  <div class="flow-row">
+    <div class="flow-box">User submits idea</div><div class="flow-arr">→</div>
+    <div class="flow-box">Persona generator spawns 80 agents</div><div class="flow-arr">→</div>
+    <div class="flow-box">Social graph built (NetworkX)</div>
+  </div>
+  <div class="flow-row">
+    <div class="flow-box">Tick loop starts</div><div class="flow-arr">→</div>
+    <div class="flow-box">Agent pairs picked</div><div class="flow-arr">→</div>
+    <div class="flow-box">LLM reasons for each agent</div><div class="flow-arr">→</div>
+    <div class="flow-box">Stage updated</div>
+  </div>
+  <div class="flow-row">
+    <div class="flow-box">Snapshot saved</div><div class="flow-arr">→</div>
+    <div class="flow-box">WS pushes to frontend</div><div class="flow-arr">→</div>
+    <div class="flow-box">After N ticks: report compiled</div><div class="flow-arr">→</div>
+    <div class="flow-box">User sees verdict</div>
+  </div>
+</div>
+
+</div>

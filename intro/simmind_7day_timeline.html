@@ -1,0 +1,137 @@
+<style>
+.day-card{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:14px 16px;margin-bottom:10px;cursor:pointer;transition:border-color .15s}
+.day-card:hover{border-color:var(--color-border-primary)}
+.day-header{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.day-badge{font-size:11px;font-weight:500;padding:2px 10px;border-radius:20px;white-space:nowrap}
+.d1{background:#E1F5EE;color:#085041}.d2{background:#EEEDFE;color:#3C3489}.d3{background:#EEEDFE;color:#3C3489}.d4{background:#FAEEDA;color:#633806}.d5{background:#FAEEDA;color:#633806}.d6{background:#E6F1FB;color:#0C447C}.d7{background:#EAF3DE;color:#27500A}
+.day-title{font-size:14px;font-weight:500;color:var(--color-text-primary)}
+.day-sub{font-size:12px;color:var(--color-text-secondary);margin-bottom:8px}
+.task-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:4px}
+.task-list li{font-size:12px;color:var(--color-text-secondary);display:flex;align-items:flex-start;gap:6px}
+.task-list li::before{content:"";display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--color-border-primary);margin-top:5px;flex-shrink:0}
+.win-tag{font-size:11px;color:var(--color-text-success);margin-top:8px;font-weight:500}
+.hours-tag{font-size:11px;color:var(--color-text-tertiary);margin-left:auto;white-space:nowrap}
+.section-label{font-size:11px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.06em;margin:16px 0 8px}
+</style>
+
+<div class="section-label">Week plan — SimMind · 3–4 hrs/day</div>
+
+<div class="day-card" onclick="sendPrompt('Show me the code to write on Day 1 of SimMind — agent.py and mock mind')">
+  <div class="day-header">
+    <span class="day-badge d1">Day 1 — Mon</span>
+    <span class="day-title">Project setup + Agent model</span>
+    <span class="hours-tag">3 hrs</span>
+  </div>
+  <div class="day-sub">You end today with two AI agents that have personalities and can hold a belief.</div>
+  <ul class="task-list">
+    <li>Set up repo, venv, install langchain, fastapi, networkx, pydantic</li>
+    <li>Write <code>agent.py</code> — Agent dataclass with personality, beliefs, trust list</li>
+    <li>Write <code>mock_mind.py</code> — fake LLM that returns hardcoded JSON (zero API cost)</li>
+    <li>Write a test script: create 2 agents, print their profiles</li>
+  </ul>
+  <div class="win-tag">✓ End of day win: python test_agents.py prints two distinct human profiles</div>
+</div>
+
+<div class="day-card" onclick="sendPrompt('Show me the code to write on Day 2 of SimMind — the conversation engine')">
+  <div class="day-header">
+    <span class="day-badge d2">Day 2 — Tue</span>
+    <span class="day-title">Conversation engine + belief update</span>
+    <span class="hours-tag">4 hrs</span>
+  </div>
+  <div class="day-sub">Two agents can now talk about an idea and change their minds.</div>
+  <ul class="task-list">
+    <li>Write <code>mind.py</code> — LangChain prompt template for agent conversation</li>
+    <li>Prompt returns structured JSON: belief_delta, response_text, reasoning</li>
+    <li>Wire mock LLM into mind.py so it runs without API key</li>
+    <li>Test: inject idea "AI will take all jobs" → agent A talks to agent B → beliefs update</li>
+  </ul>
+  <div class="win-tag">✓ End of day win: one conversation runs, belief score changes, reasoning prints</div>
+</div>
+
+<div class="day-card" onclick="sendPrompt('Show me the code to write on Day 3 of SimMind — tick loop and social graph')">
+  <div class="day-header">
+    <span class="day-badge d3">Day 3 — Wed</span>
+    <span class="day-title">Simulation tick loop + social graph</span>
+    <span class="hours-tag">4 hrs</span>
+  </div>
+  <div class="day-sub">A full population runs for N ticks. You can watch beliefs spread in the terminal.</div>
+  <ul class="task-list">
+    <li>Write <code>presets.py</code> — 3 population presets (small town, polarised, social media)</li>
+    <li>Write <code>simulation.py</code> — tick loop, picks agent pairs from NetworkX graph</li>
+    <li>Save belief snapshots to SQLite after each tick</li>
+    <li>Run 20-agent simulation for 10 ticks, print belief adoption % per tick</li>
+  </ul>
+  <div class="win-tag">✓ End of day win: terminal shows idea spreading tick by tick across 20 agents</div>
+</div>
+
+<div class="day-card" onclick="sendPrompt('Show me the code to write on Day 4 of SimMind — FastAPI backend')">
+  <div class="day-header">
+    <span class="day-badge d4">Day 4 — Thu</span>
+    <span class="day-title">FastAPI backend + real LLM swap</span>
+    <span class="hours-tag">4 hrs</span>
+  </div>
+  <div class="day-sub">Backend is live. You switch from mock to real LLM for the first time.</div>
+  <ul class="task-list">
+    <li>Write <code>main.py</code> — FastAPI routes: POST /simulate, GET /results/{sim_id}</li>
+    <li>WebSocket endpoint that streams tick updates to clients</li>
+    <li>Swap mock_mind for real LangChain + Claude Haiku (get free API key today)</li>
+    <li>Run one real simulation — watch actual LLM reasoning come back</li>
+  </ul>
+  <div class="win-tag">✓ End of day win: curl the API, get real AI-generated belief updates back</div>
+</div>
+
+<div class="day-card" onclick="sendPrompt('Show me the code to write on Day 5 of SimMind — idea mutation tracker')">
+  <div class="day-header">
+    <span class="day-badge d5">Day 5 — Fri</span>
+    <span class="day-title">Idea mutation tracker</span>
+    <span class="hours-tag">4 hrs</span>
+  </div>
+  <div class="day-sub">The differentiator. Ideas visibly mutate as they pass through different minds.</div>
+  <ul class="task-list">
+    <li>Extend mind.py prompt — LLM also returns mutated_idea_text when passing on belief</li>
+    <li>Store mutation chain per agent: original → version they heard → version they spread</li>
+    <li>Add /mutation-tree endpoint returning the idea's evolution as a tree structure</li>
+    <li>Print the mutation tree to terminal — see how idea text drifts across population</li>
+  </ul>
+  <div class="win-tag">✓ End of day win: print shows "AI takes jobs" → "AI affects some jobs" → "AI helps jobs"</div>
+</div>
+
+<div class="day-card" onclick="sendPrompt('What should I build for the frontend on Day 6 of SimMind?')">
+  <div class="day-header">
+    <span class="day-badge d6">Day 6 — Sat</span>
+    <span class="day-title">Frontend — live network graph</span>
+    <span class="hours-tag">4 hrs</span>
+  </div>
+  <div class="day-sub">The demo moment. Nodes glow as beliefs spread. You can show this to anyone.</div>
+  <ul class="task-list">
+    <li>Create React app, install D3.js and recharts</li>
+    <li>Force-directed graph — nodes = agents, colour intensity = belief adoption (gray → amber)</li>
+    <li>Connect to WebSocket — graph updates live as simulation ticks</li>
+    <li>Sidebar: adoption % line chart over time, top 5 most-influential agents</li>
+  </ul>
+  <div class="win-tag">✓ End of day win: open browser, start sim, watch idea visually spread across the network</div>
+</div>
+
+<div class="day-card" onclick="sendPrompt('What should I do on Day 7 of SimMind — polish and deploy?')">
+  <div class="day-header">
+    <span class="day-badge d7">Day 7 — Sun</span>
+    <span class="day-title">Polish + deploy + README</span>
+    <span class="hours-tag">3 hrs</span>
+  </div>
+  <div class="day-sub">Ship it. Live URL. Portfolio-ready README. Demo GIF recorded.</div>
+  <ul class="task-list">
+    <li>Deploy backend to Railway (free tier) — takes ~20 mins</li>
+    <li>Deploy frontend to Vercel — takes ~10 mins</li>
+    <li>Record a 60-second Loom demo: inject idea, watch it spread, show mutation tree</li>
+    <li>Write README: problem statement, architecture diagram, how to run, live demo link</li>
+  </ul>
+  <div class="win-tag">✓ End of day win: live URL + GitHub repo + demo video = portfolio gold</div>
+</div>
+
+<div style="margin-top:16px;padding:12px 16px;border-radius:8px;border:0.5px solid var(--color-border-tertiary);background:var(--color-background-secondary)">
+  <div style="font-size:12px;color:var(--color-text-secondary);line-height:1.8">
+    <span style="color:var(--color-text-primary);font-weight:500">If you fall behind:</span> Day 5 (mutation) is a bonus — skip it and the project still stands. Days 1–4 backend + Day 6 frontend = complete project.<br>
+    <span style="color:var(--color-text-primary);font-weight:500">API key:</span> Get Anthropic free credits at console.anthropic.com — enough for hundreds of test runs.<br>
+    <span style="color:var(--color-text-primary);font-weight:500">Click any day card</span> to get the exact code for that day.
+  </div>
+</div>

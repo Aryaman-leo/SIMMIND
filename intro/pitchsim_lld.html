@@ -1,0 +1,395 @@
+<style>
+*{box-sizing:border-box}
+.wrap{font-family:var(--font-sans);padding:4px 0}
+.section{font-size:11px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.06em;margin:18px 0 8px}
+.card{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:10px;padding:14px 16px;margin-bottom:10px}
+.card-title{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.badge{font-size:10px;padding:2px 8px;border-radius:20px;font-weight:500}
+.b-teal{background:#E1F5EE;color:#085041}
+.b-purple{background:#EEEDFE;color:#3C3489}
+.b-amber{background:#FAEEDA;color:#633806}
+.b-blue{background:#E6F1FB;color:#0C447C}
+.b-coral{background:#FAECE7;color:#712B13}
+.b-green{background:#EAF3DE;color:#27500A}
+.b-gray{background:var(--color-background-primary);color:var(--color-text-secondary);border:0.5px solid var(--color-border-tertiary)}
+code{font-family:var(--font-mono);font-size:11px;background:var(--color-background-primary);padding:1px 5px;border-radius:4px;color:var(--color-text-primary);border:0.5px solid var(--color-border-tertiary)}
+.code-block{font-family:var(--font-mono);font-size:11px;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:12px 14px;line-height:1.9;color:var(--color-text-secondary);white-space:pre-wrap;word-break:break-word;margin-top:8px}
+.kw{color:#534AB7}.st{color:#0F6E56}.cm{color:var(--color-text-tertiary);font-style:italic}.ty{color:#993C1D}.fn{color:#633806}
+.field-table{width:100%;border-collapse:collapse;margin-top:6px}
+.field-table th{font-size:10px;font-weight:500;color:var(--color-text-tertiary);text-align:left;padding:4px 8px;border-bottom:0.5px solid var(--color-border-tertiary)}
+.field-table td{font-size:11px;color:var(--color-text-secondary);padding:5px 8px;border-bottom:0.5px solid var(--color-border-tertiary);vertical-align:top}
+.field-table tr:last-child td{border-bottom:none}
+.field-table td:first-child{font-family:var(--font-mono);font-size:10px;color:var(--color-text-primary)}
+.field-table td:nth-child(2){color:var(--color-text-info);font-family:var(--font-mono);font-size:10px}
+.tabs{display:flex;gap:4px;margin-bottom:10px;flex-wrap:wrap}
+.tab{font-size:11px;padding:4px 12px;border-radius:6px;cursor:pointer;border:0.5px solid var(--color-border-tertiary);background:var(--color-background-primary);color:var(--color-text-secondary);transition:all .15s}
+.tab.active{background:var(--color-text-primary);color:var(--color-background-primary);border-color:var(--color-text-primary)}
+.tab-content{display:none}.tab-content.active{display:block}
+</style>
+
+<div class="wrap">
+
+<div class="tabs">
+  <div class="tab active" onclick="showTab('models')">Data models</div>
+  <div class="tab" onclick="showTab('engine')">Engine classes</div>
+  <div class="tab" onclick="showTab('prompts')">LLM prompts</div>
+  <div class="tab" onclick="showTab('api')">API contracts</div>
+  <div class="tab" onclick="showTab('db')">DB schema</div>
+</div>
+
+<div id="tab-models" class="tab-content active">
+
+  <div class="card">
+    <div class="card-title"><span class="badge b-teal">dataclass</span> Agent (agents/agent.py)</div>
+    <table class="field-table">
+      <tr><th>Field</th><th>Type</th><th>Description</th></tr>
+      <tr><td>id</td><td>str</td><td>UUID — unique per simulation run</td></tr>
+      <tr><td>name</td><td>str</td><td>LLM-generated realistic name</td></tr>
+      <tr><td>age</td><td>int</td><td>28–65 depending on segment</td></tr>
+      <tr><td>job_title</td><td>str</td><td>e.g. "Restaurant owner, 2 locations"</td></tr>
+      <tr><td>archetype</td><td>str</td><td>early_adopter | skeptic | conformist | influencer | analyst</td></tr>
+      <tr><td>tech_comfort</td><td>float</td><td>0.0–1.0 — affects reasoning style</td></tr>
+      <tr><td>risk_tolerance</td><td>float</td><td>0.0–1.0 — affects objection threshold</td></tr>
+      <tr><td>budget_authority</td><td>bool</td><td>Can they actually buy without approval?</td></tr>
+      <tr><td>current_solution</td><td>str</td><td>What they use today — e.g. "Excel + WhatsApp"</td></tr>
+      <tr><td>switching_cost</td><td>str</td><td>low | medium | high</td></tr>
+      <tr><td>funnel_stage</td><td>str</td><td>unaware→aware→interested→objecting→convinced→advocate</td></tr>
+      <tr><td>conviction_score</td><td>float</td><td>0.0–1.0 — continuous belief strength</td></tr>
+      <tr><td>active_objection</td><td>str | None</td><td>Current blocker text if stage = objecting</td></tr>
+      <tr><td>idea_version</td><td>str</td><td>The mutated version of the idea this agent holds</td></tr>
+      <tr><td>memory</td><td>list[str]</td><td>Last 5 conversation summaries (LangChain memory)</td></tr>
+      <tr><td>trust_network</td><td>list[str]</td><td>Agent IDs this agent trusts and talks to</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="badge b-purple">dataclass</span> SimulationConfig</div>
+    <table class="field-table">
+      <tr><th>Field</th><th>Type</th><th>Description</th></tr>
+      <tr><td>sim_id</td><td>str</td><td>UUID for this run</td></tr>
+      <tr><td>product_brief</td><td>str</td><td>Full product description from user</td></tr>
+      <tr><td>target_market</td><td>str</td><td>e.g. "Small restaurant owners, India"</td></tr>
+      <tr><td>price_point</td><td>str</td><td>e.g. "$49/month"</td></tr>
+      <tr><td>pitch_variants</td><td>list[str]</td><td>Up to 3 marketing lines to A/B test</td></tr>
+      <tr><td>population_size</td><td>int</td><td>Default 80. Max 200 for cost control</td></tr>
+      <tr><td>num_ticks</td><td>int</td><td>Default 20. Each tick = ~1 week word-of-mouth</td></tr>
+      <tr><td>network_type</td><td>str</td><td>small_world | scale_free | clustered | random</td></tr>
+      <tr><td>use_mock_llm</td><td>bool</td><td>True in dev — zero API cost</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="badge b-amber">dataclass</span> MindOutput — what LLM returns per interaction</div>
+    <table class="field-table">
+      <tr><th>Field</th><th>Type</th><th>Description</th></tr>
+      <tr><td>new_stage</td><td>str</td><td>Updated funnel stage after this conversation</td></tr>
+      <tr><td>conviction_delta</td><td>float</td><td>-0.3 to +0.3 — belief change this tick</td></tr>
+      <tr><td>objection_text</td><td>str | None</td><td>Exact objection raised if stalling</td></tr>
+      <tr><td>response_text</td><td>str</td><td>What this agent said to the person they spoke to</td></tr>
+      <tr><td>mutated_idea</td><td>str</td><td>Version of the idea they will spread to others</td></tr>
+      <tr><td>reasoning</td><td>str</td><td>Internal monologue — why they reacted this way</td></tr>
+      <tr><td>would_advocate</td><td>bool</td><td>Would they spontaneously mention this to others?</td></tr>
+    </table>
+  </div>
+
+</div>
+
+<div id="tab-engine" class="tab-content">
+
+  <div class="card">
+    <div class="card-title"><span class="badge b-teal">class</span> PersonaGenerator (engine/persona_generator.py)</div>
+    <div class="code-block"><span class="kw">class</span> <span class="fn">PersonaGenerator</span>:
+  <span class="cm"># Calls LLM once to generate N agent profiles as JSON array</span>
+  <span class="cm"># Uses target_market string to create realistic diversity</span>
+
+  <span class="kw">def</span> <span class="fn">generate</span>(brief: str, market: str, n: int) -> list[Agent]
+  <span class="cm"># Returns N agents with varied archetypes, ages, roles</span>
+  <span class="cm"># Ensures archetype distribution: 20% early adopter,</span>
+  <span class="cm"># 30% skeptic, 25% conformist, 15% influencer, 10% analyst</span>
+
+  <span class="kw">def</span> <span class="fn">_build_prompt</span>(market: str, n: int) -> str
+  <span class="cm"># System: "You are a market research expert..."</span>
+  <span class="cm"># Returns JSON array of agent profiles only</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="badge b-purple">class</span> MindEngine (engine/mind.py)</div>
+    <div class="code-block"><span class="kw">class</span> <span class="fn">MindEngine</span>:
+  <span class="cm"># Core LLM chain — one call per agent interaction</span>
+  <span class="cm"># Uses LangChain: SystemMessage + HumanMessage + JsonOutputParser</span>
+
+  <span class="kw">def</span> <span class="fn">reason</span>(agent: Agent, idea: str, speaker: Agent) -> MindOutput
+  <span class="cm"># Builds prompt from agent profile + idea + conversation context</span>
+  <span class="cm"># Returns structured MindOutput via Pydantic output parser</span>
+
+  <span class="kw">def</span> <span class="fn">_build_system_prompt</span>(agent: Agent) -> str
+  <span class="cm"># "You are {name}, {age}, {job_title}. Your personality: ..."</span>
+
+  <span class="kw">def</span> <span class="fn">_build_human_prompt</span>(agent, idea, speaker) -> str
+  <span class="cm"># "Your contact {speaker.name} just told you: {idea_version}"</span>
+  <span class="cm"># "Reason through: do you have this problem? Is solution believable?"</span>
+  <span class="cm"># "Would you pay {price}? What stops you? Return JSON only."</span>
+
+  <span class="kw">def</span> <span class="fn">_get_cache_key</span>(agent: Agent, idea: str) -> str
+  <span class="cm"># Redis key: hash(archetype+conviction_band+idea[:50])</span>
+  <span class="cm"># Agents with same archetype+conviction band get cached response</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="badge b-amber">class</span> SimulationEngine (engine/simulation.py)</div>
+    <div class="code-block"><span class="kw">class</span> <span class="fn">SimulationEngine</span>:
+  <span class="cm"># Main tick loop — orchestrates everything</span>
+
+  <span class="kw">def</span> <span class="fn">run</span>(config: SimulationConfig) -> AsyncGenerator[TickSnapshot]
+  <span class="cm"># Yields a TickSnapshot after each tick for WebSocket streaming</span>
+
+  <span class="kw">def</span> <span class="fn">_build_graph</span>(agents, network_type) -> nx.Graph
+  <span class="cm"># NetworkX: small_world=watts_strogatz, scale_free=barabasi_albert</span>
+
+  <span class="kw">def</span> <span class="fn">_pick_pairs</span>(graph, agents, n_pairs=10) -> list[tuple]
+  <span class="cm"># Picks 10 random connected pairs per tick</span>
+  <span class="cm"># Weighted: higher-conviction agents picked more often (influencer effect)</span>
+
+  <span class="kw">async def</span> <span class="fn">_run_tick</span>(pairs, idea, mind_engine) -> list[MindOutput]
+  <span class="cm"># Runs all pairs concurrently with asyncio.gather()</span>
+  <span class="cm"># Updates agent states, saves snapshot to SQLite</span>
+
+  <span class="kw">def</span> <span class="fn">_seed_idea</span>(agents, idea, seed_count=3)
+  <span class="cm"># Sets 3 early_adopter agents to stage=aware, conviction=0.6</span>
+  <span class="cm"># These are tick 0 — the founder's first customers/contacts</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="badge b-blue">class</span> ReportCompiler (engine/report.py)</div>
+    <div class="code-block"><span class="kw">class</span> <span class="fn">ReportCompiler</span>:
+
+  <span class="kw">def</span> <span class="fn">compile</span>(sim_id: str) -> ValidationReport
+  <span class="cm"># Reads all tick snapshots from SQLite</span>
+  <span class="cm"># Returns: verdict, funnel breakdown, objections ranked,</span>
+  <span class="cm">#          early_adopter_profiles, recommendations, mutation_tree</span>
+
+  <span class="kw">def</span> <span class="fn">_get_verdict</span>(convinced_pct: float) -> str
+  <span class="cm"># >40% → green light | 20–40% → conditional | <20% → red flag</span>
+
+  <span class="kw">def</span> <span class="fn">_rank_objections</span>(all_outputs) -> list[RankedObjection]
+  <span class="cm"># Groups objection_text by semantic similarity (sentence-transformers)</span>
+  <span class="cm"># Returns top 5 with frequency % and example verbatim quotes</span>
+
+  <span class="kw">def</span> <span class="fn">_find_early_adopters</span>(agents) -> list[Agent]
+  <span class="cm"># Returns agents who hit convinced stage earliest</span>
+  <span class="cm"># These become the "target this persona first" recommendation</span>
+
+  <span class="kw">def</span> <span class="fn">_generate_recommendations</span>(report_data) -> list[str]
+  <span class="cm"># One final LLM call: "Given this simulation data, give 4 specific</span>
+  <span class="cm"># actionable product/positioning fixes." Returns ranked list.</span></div>
+  </div>
+
+</div>
+
+<div id="tab-prompts" class="tab-content">
+
+  <div class="card">
+    <div class="card-title"><span class="badge b-coral">prompt</span> Persona generation prompt</div>
+    <div class="code-block"><span class="cm">SYSTEM:</span>
+You are a market research expert. Generate realistic buyer personas.
+Return ONLY a JSON array. No preamble, no markdown.
+
+<span class="cm">HUMAN:</span>
+Generate {n} diverse buyer personas for this target market: {market}
+Product they will evaluate: {brief}
+Price point: {price}
+
+Each persona must have:
+- name, age, job_title, company_size
+- archetype: one of [early_adopter, skeptic,
+  conformist, influencer, analyst]
+- tech_comfort: float 0.0-1.0
+- risk_tolerance: float 0.0-1.0
+- budget_authority: bool
+- current_solution: string (what they use today)
+- switching_cost: low|medium|high
+- personality_summary: 1 sentence
+
+Ensure realistic distribution. Return JSON array only.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="badge b-coral">prompt</span> Agent reasoning prompt (called every interaction)</div>
+    <div class="code-block"><span class="cm">SYSTEM:</span>
+You are {name}, {age} years old, {job_title}.
+Personality: {personality_summary}
+Tech comfort: {tech_comfort}/1.0. Risk tolerance: {risk_tolerance}/1.0
+You currently use: {current_solution}
+Your switching cost is {switching_cost}.
+Recent memory: {memory[-3:]}
+
+Respond as this person would — with their doubts, habits, and priorities.
+Return ONLY valid JSON. No other text.
+
+<span class="cm">HUMAN:</span>
+{speaker_name} just told you about a product:
+"{idea_version}"
+
+Price: {price_point}
+
+Reason through this honestly as {name}:
+1. Do I actually have this problem?
+2. Is this solution believable?
+3. Would I pay {price_point} for this?
+4. What is my biggest objection right now?
+5. Would I mention this to someone else?
+
+Return JSON with exactly these keys:
+{
+  "new_stage": "unaware|aware|interested|objecting|convinced|advocate",
+  "conviction_delta": float between -0.3 and 0.3,
+  "objection_text": "string or null",
+  "response_text": "what you say back to {speaker_name}",
+  "mutated_idea": "how you would describe this product to someone else",
+  "reasoning": "your internal thought process in 1-2 sentences",
+  "would_advocate": true|false
+}</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="badge b-coral">prompt</span> Recommendations prompt (once, end of simulation)</div>
+    <div class="code-block"><span class="cm">SYSTEM:</span>
+You are a sharp product strategist. Be direct and specific.
+Return a JSON array of exactly 4 strings. No preamble.
+
+<span class="cm">HUMAN:</span>
+A product idea was simulated against {n} buyer personas.
+Results:
+- Convinced rate: {convinced_pct}%
+- Top objection (44%): "{top_objection}"
+- Second objection (29%): "{second_objection}"
+- Earliest adopter profile: {early_adopter_summary}
+- Funnel drop-off: biggest drop at {biggest_dropoff_stage}
+- Pitch variant winner: Variant {winner} ({winner_pct}% convinced)
+
+Give 4 specific, actionable recommendations to improve conversion.
+Each must name a concrete action, not generic advice.
+Return: ["rec1", "rec2", "rec3", "rec4"]</div>
+  </div>
+
+</div>
+
+<div id="tab-api" class="tab-content">
+
+  <div class="card">
+    <div class="card-title"><span class="badge b-blue">POST</span> /simulate</div>
+    <div class="code-block"><span class="cm">Request body:</span>
+{
+  "product_brief": "string",
+  "target_market": "string",
+  "price_point": "string",
+  "pitch_variants": ["string", "string", "string"],
+  "population_size": 80,
+  "num_ticks": 20,
+  "network_type": "small_world"
+}
+
+<span class="cm">Response 202:</span>
+{
+  "sim_id": "uuid",
+  "status": "running",
+  "ws_url": "/stream/uuid",
+  "estimated_seconds": 45
+}</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="badge b-blue">WS</span> /stream/{sim_id} — tick update shape</div>
+    <div class="code-block"><span class="cm">Each tick pushes:</span>
+{
+  "tick": 7,
+  "total_ticks": 20,
+  "stage_counts": {
+    "unaware": 31, "aware": 18, "interested": 14,
+    "objecting": 9, "convinced": 6, "advocate": 2
+  },
+  "latest_interactions": [
+    {
+      "agent_a": "Ravi", "agent_b": "Priya",
+      "outcome": "Priya moved: interested → convinced",
+      "snippet": "Priya: I've been looking for something like this..."
+    }
+  ],
+  "graph_delta": {
+    "node_updates": [{"id":"uuid","stage":"convinced","conviction":0.78}]
+  }
+}</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="badge b-blue">GET</span> /report/{sim_id} — final report shape</div>
+    <div class="code-block">{
+  "verdict": "conditional_green | green | red",
+  "convinced_pct": 31,
+  "advocate_pct": 18,
+  "funnel": {
+    "unaware":0, "aware":72, "interested":48,
+    "objecting":44, "convinced":31, "advocate":18
+  },
+  "top_objections": [
+    {"pct":44, "text":"...", "verbatim_quote":"...", "persona_type":"skeptic"}
+  ],
+  "early_adopters": [
+    {"name":"Ravi","age":34,"job_title":"...","why_they_converted":"..."}
+  ],
+  "pitch_variant_results": [
+    {"variant":"A","line":"...","convinced_pct":34,"best_segment":"..."}
+  ],
+  "recommendations": ["rec1","rec2","rec3","rec4"],
+  "mutation_tree": { ... }
+}</div>
+  </div>
+
+</div>
+
+<div id="tab-db" class="tab-content">
+
+  <div class="card">
+    <div class="card-title"><span class="badge b-green">SQLite</span> simulation_ticks — tick-by-tick snapshots</div>
+    <table class="field-table">
+      <tr><th>Column</th><th>Type</th><th>Notes</th></tr>
+      <tr><td>id</td><td>INTEGER PK</td><td>Auto increment</td></tr>
+      <tr><td>sim_id</td><td>TEXT</td><td>FK to simulations table</td></tr>
+      <tr><td>tick</td><td>INTEGER</td><td>0–N</td></tr>
+      <tr><td>agent_id</td><td>TEXT</td><td>Which agent this row describes</td></tr>
+      <tr><td>funnel_stage</td><td>TEXT</td><td>Stage at end of this tick</td></tr>
+      <tr><td>conviction_score</td><td>REAL</td><td>0.0–1.0</td></tr>
+      <tr><td>objection_text</td><td>TEXT</td><td>Null if not objecting</td></tr>
+      <tr><td>idea_version</td><td>TEXT</td><td>Current mutation this agent holds</td></tr>
+      <tr><td>created_at</td><td>DATETIME</td><td>For replay ordering</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="badge b-green">PostgreSQL</span> reports — final compiled reports</div>
+    <table class="field-table">
+      <tr><th>Column</th><th>Type</th><th>Notes</th></tr>
+      <tr><td>sim_id</td><td>UUID PK</td><td></td></tr>
+      <tr><td>user_id</td><td>UUID</td><td>FK to users (when auth added)</td></tr>
+      <tr><td>product_brief</td><td>TEXT</td><td></td></tr>
+      <tr><td>config_json</td><td>JSONB</td><td>Full SimulationConfig</td></tr>
+      <tr><td>report_json</td><td>JSONB</td><td>Full ValidationReport</td></tr>
+      <tr><td>verdict</td><td>TEXT</td><td>For quick filtering</td></tr>
+      <tr><td>convinced_pct</td><td>REAL</td><td>For sorting/analytics</td></tr>
+      <tr><td>created_at</td><td>TIMESTAMP</td><td></td></tr>
+      <tr><td>is_public</td><td>BOOLEAN</td><td>For shareable report links</td></tr>
+    </table>
+  </div>
+
+</div>
+
+</div>
+
+<script>
+function showTab(name) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
